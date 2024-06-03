@@ -1,5 +1,4 @@
 #include <iostream>
-#include <limits>
 
 class Circulo {
     public:
@@ -30,12 +29,7 @@ int main() {
     float raio;
 
     std::cout << "Digite o raio do circulo: " << std::endl;
-
-    while (!(std::cin >> raio) || raio <= 0) {
-        std::cerr << "Entrada inválida. Por favor, insira um valor positivo para o raio." << std::endl;
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
+    std::cin >> raio;
 
     circulo.setRaio(raio);
     std::cout << "A área do círculo é: " << circulo.area() << std::endl;
