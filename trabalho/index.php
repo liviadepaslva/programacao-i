@@ -6,9 +6,15 @@ $cupons = ['DESC10', 'DESC30'];
 $cupom = '';
 $desconto = 0;
 
-$_SESSION['product-name'] = 'Placa de Vídeo Asus Dual NVIDIA GeForce RTX 2070 EVO V2 OC Edition, 8GB, GDDR6';
-$_SESSION['preco_prod'] = 'R$ 2.949,90';
-$preco_prod = 2949.90;
+if (!isset($_SESSION['product-name'] )) {
+    $_SESSION['product-name'] = 'Placa de Vídeo Asus Dual NVIDIA GeForce RTX 2070 EVO V2 OC Edition, 8GB, GDDR6';
+}
+if (!isset($_SESSION['preco_prod'])) {
+    $_SESSION['preco_prod'] = 2949.90;
+}
+if (!isset($_SESSION['contador'])) {
+    $_SESSION['contador'] = 1;
+}
 
 if (!isset($_SESSION['contador'])) {
     $_SESSION['contador'] = 1;
@@ -35,17 +41,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } elseif ($cupom == 'DESC30') {
                 $desconto = 0.30;
             }
-            $_SESSION['subtotal'] = $_SESSION['contador'] * $preco_prod * (1 - $desconto);
+            $_SESSION['subtotal'] = $_SESSION['contador'] * $_SESSION['preco_prod'] * (1 - $desconto);
         }
     }
 }
 if ($desconto > 0) {
-   $_SESSION['subtotal'] = $_SESSION['contador'] * $preco_prod * (1 - $desconto);
-} else {
-   $_SESSION['subtotal'] = $_SESSION['contador'] * $preco_prod;
+   $_SESSION['subtotal'] = $_SESSION['contador'] * $_SESSION['preco_prod'] * (1 - $desconto);
+} elseif (isset($_SESSION['contador'])) {
+    $_SESSION['subtotal'] = $_SESSION['contador'] * $_SESSION['preco_prod'];
 }
-
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,7 +87,7 @@ if ($desconto > 0) {
                                         <td class="product-name" data-title="Product">
                                             <a href=""><?=$_SESSION['product-name']?></a>
                                         </td>
-                                        <td class="product-price" data-title="Price"><?=$_SESSION['preco_prod']?></td>
+                                        <td class="product-price" data-title="Price">R$ <?=number_format($_SESSION['preco_prod'], 2, ',', '.')?></td>
                                         <td class="product-quantity" data-title="Quantity">
                                             <form method="post" action="" class="d-inline">
                                                 <button type="submit" name="aumentar" class="btn btn-success">+</button>
